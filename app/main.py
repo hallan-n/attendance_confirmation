@@ -1,25 +1,26 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
-from database.model import Guest
+from database.model import GuestModel
 from database.persistence import create_guest, read_all_guests, read_guest, update_guest
 import uuid
 
 app = FastAPI(title="API de Confirmação de Presença")
 
 @app.post('/')
-def add_guest(guest: Guest):
+def add_guest(guest: GuestModel):
     try:
         create_guest(guest)
         return guest
     except:
         raise HTTPException(status_code=422, detail='Erro ao criar um Guest.')
-    
+
+
 @app.put('/')
-def att_guest(guest: Guest):
-    return update_guest(guest)
-    # try:
-    # except:
-    #     raise HTTPException(status_code=422, detail='Erro ao atualizar um Guest.')
+def att_guest(guest: GuestModel):
+    try:
+        return update_guest(guest)
+    except:
+        raise HTTPException(status_code=422, detail='Erro ao atualizar um Guest.')
 
 
 @app.get('/{id}')
