@@ -6,14 +6,14 @@ from database.persistence import create_guest, read_guest, read_all_guests, upda
 app = FastAPI(title="API de Confirmação de Presença")
 
 
-@app.post('/')
+@app.post('/', tags=['Guest', 'Admin'])
 def add_guest(guest: GuestTable):
     try:
         return create_guest(guest)
     except Exception as e:
         raise HTTPException(status_code=422, detail=f"Erro ao criar um Guest: {str(e)}")
 
-@app.get('/{id}')
+@app.get('/{id}', tags=['Guest', 'Admin'])
 def get_guest(id: str):
     try:
         return read_guest(id)
@@ -21,14 +21,14 @@ def get_guest(id: str):
         raise HTTPException(status_code=422, detail=f"Erro ler um Guest: {str(e)}")
 
 
-@app.put('/')
+@app.put('/', tags=['Guest', 'Admin'])
 def att_guest(guest: GuestTable):
     try:
         return update_guest(guest)
     except Exception as e:
         raise HTTPException(status_code=422, detail=f"Erro ao atualizar um Guest: {str(e)}")
 
-@app.delete('/')
+@app.delete('/', tags=['Admin'])
 def revoke_guest(id: str):
     try:
         resp = delete_guest(id)
@@ -37,7 +37,7 @@ def revoke_guest(id: str):
         raise HTTPException(status_code=422, detail=f"Erro ao deletar uma Guest: {str(e)}")
 
 
-@app.get('/')
+@app.get('/', tags=['Admin'])
 def get_all_guests():
     try:
         return read_all_guests()
