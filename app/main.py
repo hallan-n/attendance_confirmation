@@ -1,41 +1,48 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
-from database.model import GuestModel
-from database.persistence import create_guest, read_all_guests, read_guest, update_guest
-import uuid
+from database.model import GuestTable
+from database.persistence import create_guest, read_guest, read_all_guests, update_guest, delete_guest
 
 app = FastAPI(title="API de Confirmação de Presença")
 
+
 @app.post('/')
-def add_guest(guest: GuestModel):
+def add_guest(guest: GuestTable):
     try:
-        create_guest(guest)
-        return guest
-    except:
-        raise HTTPException(status_code=422, detail='Erro ao criar um Guest.')
-
-
-@app.put('/')
-def att_guest(guest: GuestModel):
-    try:
-        return update_guest(guest)
-    except:
-        raise HTTPException(status_code=422, detail='Erro ao atualizar um Guest.')
-
+        return create_guest(guest)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ao criar um Guest: {str(e)}")
 
 @app.get('/{id}')
 def get_guest(id: str):
     try:
         return read_guest(id)
-    except:
-        raise HTTPException(status_code=404, detail='Erro ao pegar um Guest.')
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ler um Guest: {str(e)}")
+
+
+@app.put('/')
+def att_guest(guest: GuestTable):
+    try:
+        return update_guest(guest)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ao atualizar um Guest: {str(e)}")
+
+@app.delete('/')
+def revoke_guest(id: str):
+    try:
+        resp = delete_guest(id)
+        return {'success': resp}
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ao deletar uma Guest: {str(e)}")
+
 
 @app.get('/')
 def get_all_guests():
     try:
         return read_all_guests()
-    except:
-        raise HTTPException(status_code=404, detail='Erro ao pegar um Guest.')
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ler um Guest: {str(e)}")
 
 
 if __name__ == "__main__":

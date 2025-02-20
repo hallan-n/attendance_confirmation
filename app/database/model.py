@@ -1,33 +1,21 @@
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field
 import uuid
-from typing import List, Optional
-from pydantic import EmailStr, BaseModel
-
+from typing import Optional
+from pydantic import EmailStr
 
 
 class GuestTable(SQLModel, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     name: str = Field(..., min_length=3, max_length=100)
     email: Optional[EmailStr] = Field(default=None, max_length=255, unique=True)
-    phone: str
-    children: List["ChildrenTable"] = Relationship(back_populates="guest")
-
-
-class ChildrenTable(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)  
-    name: str = Field(..., min_length=3, max_length=100)
-    guest_id: uuid.UUID = Field(foreign_key="guesttable.id")  
-    guest: Optional[GuestTable] = Relationship(back_populates="children")
-
-
-class ChildrenModel(BaseModel):
-    id: int
-    name: str
-
-
-class GuestModel(BaseModel):
-    id: str
-    name: str
-    email: Optional[EmailStr]
-    phone: Optional[str]
-    children: List[ChildrenModel] = []
+    phone: str = Field(min_length=3, max_length=100, default='')
+    child_1: str = Field(min_length=3, max_length=100, default='')
+    child_2: str = Field(min_length=3, max_length=100, default='')
+    child_3: str = Field(min_length=3, max_length=100, default='')
+    child_4: str = Field(min_length=3, max_length=100, default='')
+    child_5: str = Field(min_length=3, max_length=100, default='')
+    child_6: str = Field(min_length=3, max_length=100, default='')
+    child_7: str = Field(min_length=3, max_length=100, default='')
+    child_8: str = Field(min_length=3, max_length=100, default='')
+    child_9: str = Field(min_length=3, max_length=100, default='')
+    child_10: str = Field(min_length=3, max_length=100, default='')
