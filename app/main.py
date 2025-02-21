@@ -2,9 +2,21 @@ from fastapi import FastAPI, HTTPException
 import uvicorn
 from database.model import GuestTable
 from database.persistence import create_guest, read_guest, read_all_guests, update_guest, delete_guest
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI(title="API de Confirmação de Presença")
-
+origins = [
+    "http://localhost",
+    "http://localhost:5173",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post('/', tags=['Guest', 'Admin'])
 def add_guest(guest: GuestTable):
