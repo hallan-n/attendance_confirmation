@@ -1,5 +1,4 @@
-Projeto desenvolvido como um microsserviço para integração com uma aplicação web voltada à gestão de casamentos.
+Projeto desenvolvido como um microsserviço para integração com uma aplicação web voltada à gestão de casamento.
 
-issues
-- Adicionar model children 
-- Camada de persistencia children 
+Pendente:
+Implementar autenticação nas rotas ou integrar com outro serviços de auth
