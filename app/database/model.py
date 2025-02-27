@@ -10,6 +10,7 @@ class GuestTable(SQLModel, table=True):
     email: Optional[EmailStr] = Field(default=None, max_length=255, unique=True)
     phone: str = Field(min_length=3, max_length=100, default='')
     is_confirmed: bool = False
+    description: str = Field(min_length=3, max_length=100, default="")
     child_1: str = Field(min_length=3, max_length=100, default='')
     child_2: str = Field(min_length=3, max_length=100, default='')
     child_3: str = Field(min_length=3, max_length=100, default='')
