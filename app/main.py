@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 import uvicorn
-from database.model import GuestTable
-from database.persistence import create_guest, read_guest, read_all_guests, update_guest, delete_guest
+from model import GuestTable
+from persistence import create_guest, read_guest, read_all_guests, update_guest, delete_guest
 from fastapi.middleware.cors import CORSMiddleware
 
 

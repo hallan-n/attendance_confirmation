@@ -1,5 +1,5 @@
 from sqlmodel import create_engine, Session
-from database.model import SQLModel
+from model import SQLModel
 
 engine = create_engine("sqlite:///database.db")
 SQLModel.metadata.create_all(engine)

@@ -1,7 +1,7 @@
 import uuid
 from sqlmodel import select
-from database.connection import Connection
-from database.model import GuestTable
+from app.connection import Connection
+from model import GuestTable
 
 
 def create_guest(guest: GuestTable):
