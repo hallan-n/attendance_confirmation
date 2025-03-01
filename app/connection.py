@@ -1,9 +1,17 @@
+from os import getenv
 from sqlmodel import create_engine, Session
 from model import SQLModel
 
-engine = create_engine("sqlite:///database.db")
+url = "{}://{}:{}@{}:{}/{}".format(
+    getenv('DB_CONNECTOR'),
+    getenv('DB_USER'),
+    getenv('DB_PASSWORD'),
+    getenv('DB_HOST'),
+    getenv('DB_PORT'),
+    getenv('DB_DATABASE')
+)
+engine = create_engine(url)
 SQLModel.metadata.create_all(engine)
-
 
 class Connection:
     def __enter__(self):

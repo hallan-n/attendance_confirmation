@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  app:
+    build: .  
+    container_name: fastapi_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - .env  # Carrega as variáveis de ambiente do .env
+    volumes:
+      - .:/app  # Monta o diretório atual no container
+
+  db:
+    image: mysql:8
+    container_name: mysql_db
+    restart: always
+    env_file:
+      - .env  # Carrega as variáveis de ambiente para o MySQL
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
