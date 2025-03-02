@@ -4,6 +4,7 @@ import bcrypt
 from fastapi import HTTPException, Header
 from jose import JWTError, jwt
 
+
 def hashed(password: str):
     salt = bcrypt.gensalt()
     hash = bcrypt.hashpw(password.encode("utf-8"), salt)

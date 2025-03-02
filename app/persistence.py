@@ -30,8 +30,9 @@ def delete_guest(id: str):
         if guest:
             conn.delete(guest)
             conn.commit()
-            return True 
+            return True
         return False
+
 
 def read_guest(id: str):
     with Connection() as conn:
@@ -49,3 +50,11 @@ def read_login(login: Login):
     with Connection() as conn:
         guest = conn.get(GuestTable, login.id)
         return guest
+
+
+def create_login(login: Login):
+    with Connection() as conn:
+        conn.add(login)
+        conn.commit()
+        conn.refresh(login)
+    return login

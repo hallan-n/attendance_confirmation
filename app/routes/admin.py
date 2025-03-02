@@ -10,7 +10,7 @@ from persistence import (
 route = APIRouter()
 
 
-@route.post("/", tags=["Admin"])
+@route.post("/admin", tags=["Admin"])
 def add_guest(guest: GuestTable, token: dict = Depends(decode_token)):
     try:
         return create_guest(guest)
