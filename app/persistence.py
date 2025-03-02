@@ -48,7 +48,7 @@ def read_all_guests():
 
 def read_login(login: Login):
     with Connection() as conn:
-        guest = conn.get(GuestTable, login.id)
+        guest = conn.get(Login, login.id)
         return guest
 
 

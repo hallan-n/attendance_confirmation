@@ -7,10 +7,41 @@ from model import Login
 from routes.admin import route as admin
 from routes.guest import route as guest
 from routes.auth import route as auth
-from persistence import create_login
+from persistence import create_login, read_login
 import logging
 
 load_dotenv()
+
+setup_done = False
+
+
+def setup():
+    global setup_done
+    if not setup_done:
+        try:
+            user = getenv("FIRST_SUPERUSER")
+            password = getenv("FIRST_SUPERUSER_PASSWORD")
+
+            if not user or not password:
+                raise ValueError("Credenciais de SuperADM não encontrado .env.")
+
+            has_login = read_login(Login(id=1, user=user, password=password))
+            if has_login:
+                print("SuperADM já existe!")
+            else:
+                create_login(Login(user=user, password=password))
+                print("SuperADM criado com sucesso!")
+            setup_done = True
+        except Exception as e:
+            print(f"Erro ao criar SuperADM: {str(e)}")
+            setup_done = False
+            logging.error(f"Erro ao criar SuperADM: {str(e)}")
+            raise HTTPException(
+                status_code=422, detail=f"Erro ao criar um Super User: {str(e)}"
+            )
+
+setup()
+
 app = FastAPI(title="API de Confirmação de Presença")
 
 origins = [
@@ -29,30 +60,6 @@ app.include_router(admin)
 app.include_router(guest)
 app.include_router(auth)
 
-setup_done = False
-
-
-def setup():
-    global setup_done
-    if not setup_done:
-        try:
-            user = getenv("FIRST_SUPERUSER")
-            password = getenv("FIRST_SUPERUSER_PASSWORD")
-
-            if not user or not password:
-                raise ValueError("Credenciais de SuperADM não encontrado .env.")
-
-            create_login(Login(user=user, password=password))
-            setup_done = True
-        except Exception as e:
-            setup_done = False
-            logging.error(f"Erro ao criar SuperADM: {str(e)}")
-            raise HTTPException(
-                status_code=422, detail=f"Erro ao criar um Super User: {str(e)}"
-            )
-
-
-setup()
 
 if __name__ == "__main__":
     uvicorn.run(
