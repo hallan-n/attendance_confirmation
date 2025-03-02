@@ -8,9 +8,11 @@ from routes.admin import route as admin
 from routes.guest import route as guest
 from routes.auth import route as auth
 from persistence import create_login
+import logging
 
 load_dotenv()
 app = FastAPI(title="API de Confirmação de Presença")
+
 origins = [
     "http://localhost",
     "http://localhost:5173",
@@ -27,15 +29,30 @@ app.include_router(admin)
 app.include_router(guest)
 app.include_router(auth)
 
-try:
-    user = getenv("FIRST_SUPERUSER")
-    password = getenv("FIRST_SUPERUSER_PASSWORD")
-    create_login(Login(user=user, password=password))
-except Exception as e:
-    raise HTTPException(
-        status_code=422, detail=f"Erro ao criar um Super User: {str(e)}"
-    )
+setup_done = False
 
+
+def setup():
+    global setup_done
+    if not setup_done:
+        try:
+            user = getenv("FIRST_SUPERUSER")
+            password = getenv("FIRST_SUPERUSER_PASSWORD")
+
+            if not user or not password:
+                raise ValueError("Credenciais de SuperADM não encontrado .env.")
+
+            create_login(Login(user=user, password=password))
+            setup_done = True
+        except Exception as e:
+            setup_done = False
+            logging.error(f"Erro ao criar SuperADM: {str(e)}")
+            raise HTTPException(
+                status_code=422, detail=f"Erro ao criar um Super User: {str(e)}"
+            )
+
+
+setup()
 
 if __name__ == "__main__":
     uvicorn.run(
