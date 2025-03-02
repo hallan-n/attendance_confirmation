@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from security import decode_token
 from model import GuestTable
 from persistence import (
     create_guest,
@@ -10,7 +11,7 @@ route = APIRouter()
 
 
 @route.post("/", tags=["Admin"])
-def add_guest(guest: GuestTable):
+def add_guest(guest: GuestTable, token: dict = Depends(decode_token)):
     try:
         return create_guest(guest)
     except Exception as e:
@@ -18,7 +19,7 @@ def add_guest(guest: GuestTable):
 
 
 @route.delete("/admin", tags=["Admin"])
-def revoke_guest(id: str):
+def revoke_guest(id: str, token: dict = Depends(decode_token)):
     try:
         resp = delete_guest(id)
         return {"success": resp}
@@ -29,7 +30,7 @@ def revoke_guest(id: str):
 
 
 @route.get("/admin", tags=["Admin"])
-def get_all_guests():
+def get_all_guests(token: dict = Depends(decode_token)):
     try:
         return read_all_guests()
     except Exception as e:
