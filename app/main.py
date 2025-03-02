@@ -3,6 +3,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from routes.admin import route as admin
 from routes.guest import route as guest
+from routes.auth import route as auth
 
 app = FastAPI(title="API de Confirmação de Presença")
 origins = [
@@ -19,6 +20,7 @@ app.add_middleware(
 
 app.include_router(admin)
 app.include_router(guest)
+app.include_router(auth)
 
 if __name__ == "__main__":
     uvicorn.run(

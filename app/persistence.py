@@ -1,7 +1,7 @@
 import uuid
 from sqlmodel import select
-from app.connection import Connection
-from model import GuestTable
+from connection import Connection
+from model import GuestTable, Login
 
 
 def create_guest(guest: GuestTable):
@@ -43,3 +43,9 @@ def read_all_guests():
     with Connection() as conn:
         guests = conn.exec(select(GuestTable)).all()
         return guests
+
+
+def read_login(login: Login):
+    with Connection() as conn:
+        guest = conn.get(GuestTable, login.id)
+        return guest

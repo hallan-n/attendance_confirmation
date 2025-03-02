@@ -21,3 +21,9 @@ class GuestTable(SQLModel, table=True):
     child_8: str = Field(min_length=3, max_length=100, default='')
     child_9: str = Field(min_length=3, max_length=100, default='')
     child_10: str = Field(min_length=3, max_length=100, default='')
+
+
+class Login(SQLModel, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user: str
+    password: str

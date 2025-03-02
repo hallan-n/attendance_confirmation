@@ -1,10 +1,21 @@
 from fastapi import APIRouter, HTTPException
+from model import GuestTable
 from persistence import (
+    create_guest,
     read_all_guests,
     delete_guest,
 )
 
 route = APIRouter()
+
+
+@route.post("/", tags=["Admin"])
+def add_guest(guest: GuestTable):
+    try:
+        return create_guest(guest)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ao criar um Guest: {str(e)}")
+
 
 @route.delete("/admin", tags=["Admin"])
 def revoke_guest(id: str):

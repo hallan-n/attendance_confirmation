@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from model import GuestTable
 from persistence import (
-    create_guest,
     read_guest,
     update_guest,
 )
@@ -10,15 +9,7 @@ from persistence import (
 route = APIRouter()
 
 
-@route.post("/", tags=["Guest", "Admin"])
-def add_guest(guest: GuestTable):
-    try:
-        return create_guest(guest)
-    except Exception as e:
-        raise HTTPException(status_code=422, detail=f"Erro ao criar um Guest: {str(e)}")
-
-
-@route.get("/{id}", tags=["Guest", "Admin"])
+@route.get("/{id}", tags=["Guest"])
 def get_guest(id: str):
     try:
         return read_guest(id)
@@ -26,7 +17,7 @@ def get_guest(id: str):
         raise HTTPException(status_code=422, detail=f"Erro ler um Guest: {str(e)}")
 
 
-@route.put("/", tags=["Guest", "Admin"])
+@route.put("/", tags=["Guest"])
 def att_guest(guest: GuestTable):
     try:
         return update_guest(guest)
