@@ -7,7 +7,7 @@ from model import Login
 from routes.admin import route as admin
 from routes.guest import route as guest
 from routes.auth import route as auth
-from persistence import create_login, read_login
+from persistence import create_login, read_login_by_id
 import logging
 
 load_dotenv()
@@ -25,7 +25,7 @@ def setup():
             if not user or not password:
                 raise ValueError("Credenciais de SuperADM não encontrado .env.")
 
-            has_login = read_login(Login(id=1, user=user, password=password))
+            has_login = read_login_by_id(Login(id=1, user=user, password=password))
             if has_login:
                 print("SuperADM já existe!")
             else:

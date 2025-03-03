@@ -20,6 +20,7 @@ def sign_in(login: Login):
 @route.post("/admin/create", tags=["Auth"])
 def add_login(login: Login, token: dict = Depends(decode_token)):
     try:
+        login.id = None
         return create_login(login)
     except Exception as e:
         raise HTTPException(status_code=422, detail=f"Erro ao criar um Login: {str(e)}")
