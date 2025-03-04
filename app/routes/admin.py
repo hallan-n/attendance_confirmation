@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from security import decode_token
 from model import GuestTable
-from persistence import (
+from infra.guest_persistence import (
     create_guest,
     read_all_guests,
     delete_guest,

@@ -7,7 +7,10 @@ from model import Login
 from routes.admin import route as admin
 from routes.guest import route as guest
 from routes.auth import route as auth
-from persistence import create_login, read_login_by_id
+from routes.gift import route as gift
+from routes.gifter import route as gifter
+
+from infra.auth_persistence import create_login, read_login_by_id
 import logging
 
 load_dotenv()
@@ -59,6 +62,8 @@ app.add_middleware(
 app.include_router(admin)
 app.include_router(guest)
 app.include_router(auth)
+app.include_router(gift)
+app.include_router(gifter)
 
 
 if __name__ == "__main__":

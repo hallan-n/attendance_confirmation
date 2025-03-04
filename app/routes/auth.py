@@ -1,7 +1,7 @@
 from security import create_access_token, decode_token
 from fastapi import APIRouter, Depends, HTTPException
 from model import Login
-from persistence import read_login, create_login
+from infra.auth_persistence import read_login, create_login
 
 route = APIRouter()
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from model import GuestTable
-from persistence import (
+from infra.guest_persistence import (
     read_guest,
     update_guest,
 )
