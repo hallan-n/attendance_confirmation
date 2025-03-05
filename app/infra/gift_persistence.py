@@ -1,10 +1,11 @@
 from sqlmodel import select
-from model import Gift
+from model import GiftTable
 from infra.connection import Connection
 
 
-def create_gift(gift: Gift):
+def create_gift(gift: GiftTable):
     with Connection() as conn:
+        del gift.id
         conn.add(gift)
         conn.commit()
         conn.refresh(gift)
@@ -13,19 +14,19 @@ def create_gift(gift: Gift):
 
 def read_gift(id: int):
     with Connection() as conn:
-        gift = conn.get(Gift, id)
+        gift = conn.get(GiftTable, id)
         return gift
 
 
 def read_all_gifts():
     with Connection() as conn:
-        gifts = conn.exec(select(Gift)).all()
+        gifts = conn.exec(select(GiftTable)).all()
         return gifts
 
 
-def update_gift(gift: Gift):
+def update_gift(gift: GiftTable):
     with Connection() as conn:
-        has_gift = conn.get(Gift, gift.id)
+        has_gift = conn.get(GiftTable, gift.id)
         if has_gift:
             merged_gift = conn.merge(gift)
             conn.commit()
@@ -35,7 +36,7 @@ def update_gift(gift: Gift):
 
 def delete_gift(id: int):
     with Connection() as conn:
-        user = conn.get(Gift, id)
+        user = conn.get(GiftTable, id)
         if user:
             conn.delete(user)
             conn.commit()

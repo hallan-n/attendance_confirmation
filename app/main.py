@@ -3,12 +3,11 @@ from os import getenv
 from fastapi import FastAPI, HTTPException
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
-from model import Login
-from routes.admin import route as admin
+from model import LoginTable
 from routes.guest import route as guest
 from routes.auth import route as auth
 from routes.gift import route as gift
-from routes.gifter import route as gifter
+# from routes.gifter import route as gifter
 
 from infra.auth_persistence import create_login, read_login_by_id
 import logging
@@ -28,11 +27,11 @@ def setup():
             if not user or not password:
                 raise ValueError("Credenciais de SuperADM não encontrado .env.")
 
-            has_login = read_login_by_id(Login(id=1, user=user, password=password))
+            has_login = read_login_by_id(LoginTable(id=1, user=user, password=password))
             if has_login:
                 print("SuperADM já existe!")
             else:
-                create_login(Login(user=user, password=password))
+                create_login(LoginTable(user=user, password=password))
                 print("SuperADM criado com sucesso!")
             setup_done = True
         except Exception as e:
@@ -59,11 +58,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(admin)
 app.include_router(guest)
 app.include_router(auth)
 app.include_router(gift)
-app.include_router(gifter)
+# app.include_router(gifter)
 
 
 if __name__ == "__main__":

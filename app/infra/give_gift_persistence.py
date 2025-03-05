@@ -1,33 +1,28 @@
-from sqlmodel import select, and_
-from model import Gifter, Gift, GiftGiver
+import uuid
+from sqlmodel import select
+from model import GuestTable, GiftTable, GiftGuestTable
 from infra.connection import Connection
 
-
-def create_give_gift(gifter_giver: GiftGiver):
+def give_gift(guest: GuestTable, gift: GiftTable):
     with Connection() as conn:
-        conn.add(gifter_giver)
+        gift_guest = GiftGuestTable(guest_id=guest.id, gift_id=gift.id)
+        conn.add(gift_guest)
         conn.commit()
-        conn.refresh(gifter_giver)
-        return gifter_giver
+        conn.refresh(gift_guest)
+        return gift_guest
 
 
-def gift_has_gifter(gift_id: int):
+def revoke_give_gift(guest_id: GuestTable, gift_id):
     with Connection() as conn:
-        statement = select(GiftGiver).where(GiftGiver.gift_id == gift_id)
-        result = conn.exec(statement).first()
-        return bool(result)
-
-
-def delete_give_gift(gift_id: int, gifter_id: int):
-    with Connection() as conn:
-        statement = select(GiftGiver).where(
-            GiftGiver.gift_id == gift_id, GiftGiver.gifter_id == gifter_id
+        statement = select(GiftGuestTable).where(
+            GiftGuestTable.guest_id == uuid.UUID(guest_id),
+            GiftGuestTable.gift_id == gift_id,
         )
         result = conn.exec(statement).first()
 
         if not result:
-            return {"sucess": False}
+            return False
 
         conn.delete(result)
         conn.commit()
-        return {"sucess": True}
+        return True

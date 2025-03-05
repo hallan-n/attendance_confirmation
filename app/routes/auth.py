@@ -1,13 +1,13 @@
 from security import create_access_token, decode_token
 from fastapi import APIRouter, Depends, HTTPException
-from model import Login
+from model import LoginTable
 from infra.auth_persistence import read_login, create_login
 
 route = APIRouter()
 
 
 @route.post("/admin/login", tags=["Auth"])
-def sign_in(login: Login):
+def sign_in(login: LoginTable):
     login = read_login(login)
     if not bool(login):
         raise HTTPException(404, "Login não encontrado!")
@@ -18,7 +18,7 @@ def sign_in(login: Login):
 
 
 @route.post("/admin/create", tags=["Auth"])
-def add_login(login: Login, token: dict = Depends(decode_token)):
+def add_login(login: LoginTable, token: dict = Depends(decode_token)):
     try:
         login.id = None
         return create_login(login)
