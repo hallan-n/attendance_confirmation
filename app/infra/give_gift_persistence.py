@@ -4,6 +4,12 @@ from model import GiftGuestTable
 from infra.connection import Connection
 
 
+def read_all_gift_guest():
+    with Connection() as conn:
+        gifts_guests = conn.exec(select(GiftGuestTable)).all()
+        return gifts_guests
+
+
 def add_gift_guest(guest_id: int, gift_id: int):
     with Connection() as conn:
         gift_guest = GiftGuestTable(guest_id=uuid.UUID(guest_id), gift_id=gift_id)
