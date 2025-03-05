@@ -8,7 +8,7 @@ def create_gift(gift: Gift):
         conn.add(gift)
         conn.commit()
         conn.refresh(gift)
-    return {"sucess": True}
+    return gift
 
 
 def read_gift(id: int):
@@ -17,10 +17,9 @@ def read_gift(id: int):
         return gift
 
 
-def read_gifts(offset: int = 0, limit: int = 10):
+def read_all_gifts():
     with Connection() as conn:
-        query = select(Gift).offset(offset).limit(limit)
-        gifts = conn.exec(query).all()
+        gifts = conn.exec(select(Gift)).all()
         return gifts
 
 
@@ -40,3 +39,5 @@ def delete_gift(id: int):
         if user:
             conn.delete(user)
             conn.commit()
+            return True
+        return False

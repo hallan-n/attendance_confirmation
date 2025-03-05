@@ -1,48 +1,50 @@
 from fastapi import APIRouter, Depends, HTTPException
 from security import decode_token
 from model import Gift
-from infra.gift_persistence import create_gift, read_gift, update_gift, delete_gift, read_gifts
+from infra.gift_persistence import create_gift, read_gift, update_gift, delete_gift, read_all_gifts
 
 route = APIRouter(prefix="/gift", tags=["Admin"])
 
 
-def _is_admin(token: dict):
-    return True if token["role"] == "admin" else False
-
-
 @route.post("/")
 def add_gift(gift: Gift, token: dict = Depends(decode_token)):
-    if  gift.id >= 0:
-        del gift.id
-    if _is_admin(token):
+    try:
         return create_gift(gift)
-    raise HTTPException(status_code=401, detail="Login não encontrado!")
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ao criar um Gift: {str(e)}")
 
 
 @route.get("/all", tags=["Presenteador"])
-def get_gifts(offset: int = 0, limit: int = 10, token: dict = Depends(decode_token)):
+def get_all_gifts():
     try:
-        return read_gifts(offset, limit)
-    except:
-        raise HTTPException(status_code=401, detail="Login não encontrado!")
+        return read_all_gifts()
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ler um Gifts: {str(e)}")
 
 
-@route.get("/", tags=["Presenteador"])
+@route.get("/{id}", tags=["Presenteador"])
 def get_gift(id: int, token: dict = Depends(decode_token)):
     try:
         return read_gift(id)
-    except:
-        raise HTTPException(status_code=401, detail="Login não encontrado!")
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=f"Erro ler um Gift: {str(e)}")
+
 
 @route.put("/")
-def edit_gift(gift: Gift, token: dict = Depends(decode_token)):
-    if _is_admin(token):
+def att_gift(gift: Gift, token: dict = Depends(decode_token)):
+    try:
         return update_gift(gift)
-    raise HTTPException(status_code=401, detail="Login não encontrado!")
-
+    except Exception as e:
+        raise HTTPException(
+            status_code=422, detail=f"Erro ao atualizar um Gift: {str(e)}"
+        )
 
 @route.delete("/")
 def remove_gift(id: int, token: dict = Depends(decode_token)):
-    if _is_admin(token):
-        return delete_gift(id)
-    raise HTTPException(status_code=401, detail="Login não encontrado!")
+    try:
+        resp = delete_gift(id)
+        return {"success": resp}
+    except Exception as e:
+        raise HTTPException(
+            status_code=422, detail=f"Erro ao deletar uma Gift: {str(e)}"
+        )
