@@ -33,9 +33,25 @@ def give_gift(guest_id: str, gift_id: int):
 
 
 @route.delete("/")
-def remove_gift_giver(guest_id: str, gift_id: int):
+def remove_gift_giver_by_gift_and_guest(guest_id: str, gift_id: int):
     try:
-        return delete_give_gift(guest_id, gift_id)
+        return delete_give_gift(guest_id=guest_id, gift_id=gift_id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=422, detail=f"Erro ao deletar uma Gift: {str(e)}"
+        )
+@route.delete("/guest")
+def remove_gift_giver_by_guest(guest_id: str):
+    try:
+        return delete_give_gift(guest_id=guest_id, gift_id=None)
+    except Exception as e:
+        raise HTTPException(
+            status_code=422, detail=f"Erro ao deletar uma Gift: {str(e)}"
+        )
+@route.delete("/gift")
+def remove_gift_giver_by_gift(gift_id: int):
+    try:
+        return delete_give_gift(gift_id=gift_id, guest_id=None)
     except Exception as e:
         raise HTTPException(
             status_code=422, detail=f"Erro ao deletar uma Gift: {str(e)}"

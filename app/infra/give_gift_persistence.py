@@ -19,12 +19,21 @@ def add_gift_guest(guest_id: int, gift_id: int):
         return gift_guest
 
 
-def delete_give_gift(guest_id: int, gift_id: int):
+def delete_give_gift(guest_id: None, gift_id: None):
     with Connection() as conn:
-        statement = select(GiftGuestTable).where(
-            GiftGuestTable.guest_id == uuid.UUID(guest_id),
-            GiftGuestTable.gift_id == gift_id,
-        )
+        if guest_id and gift_id:
+            statement = select(GiftGuestTable).where(
+                GiftGuestTable.guest_id == uuid.UUID(guest_id),
+                GiftGuestTable.gift_id == gift_id,
+            )
+        elif guest_id:
+            statement = select(GiftGuestTable).where(
+                GiftGuestTable.guest_id == uuid.UUID(guest_id),
+            )
+        elif gift_id:
+            statement = select(GiftGuestTable).where(
+                GiftGuestTable.gift_id == gift_id,
+            )
         result = conn.exec(statement).first()
 
         if not result:
