@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel, Field, Relationship
 import uuid
 from typing import Optional, List
-from pydantic import EmailStr
+from pydantic import EmailStr, AnyUrl
 
 
 class GuestTable(SQLModel, table=True):
@@ -17,9 +17,9 @@ class GuestTable(SQLModel, table=True):
 
 class GiftTable(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    thumb: str = Field(min_length=3, max_length=250)
-    name: str = Field(min_length=3, max_length=100)
-    description: str = Field(min_length=3, max_length=100)
+    thumb: str = Field(min_length=3, max_length=255)
+    name: str = Field(min_length=3, max_length=255)
+    url: str = Field(min_length=3, max_length=255)
     price: float
 
     givers: List["GiftGuestTable"] = Relationship(back_populates="gift")
