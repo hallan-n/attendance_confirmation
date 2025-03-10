@@ -19,7 +19,7 @@ def add_gift_guest(guest_id: int, gift_id: int):
         return gift_guest
 
 
-def delete_give_gift(guest_id: None, gift_id: None):
+def delete_give_gift(guest_id = None, gift_id = None):
     with Connection() as conn:
         if guest_id and gift_id:
             statement = select(GiftGuestTable).where(

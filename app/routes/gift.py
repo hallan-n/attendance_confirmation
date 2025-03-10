@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
+from infra.give_gift_persistence import delete_give_gift
 from security import decode_token
 from model import GiftTable
 from infra.gift_persistence import create_gift, read_gift, update_gift, delete_gift, read_all_gifts
@@ -42,6 +43,7 @@ def att_gift(gift: GiftTable, token: dict = Depends(decode_token)):
 @route.delete("/")
 def remove_gift(id: int, token: dict = Depends(decode_token)):
     try:
+        delete_give_gift(gift_id=id)
         resp = delete_gift(id)
         return {"success": resp}
     except Exception as e:
