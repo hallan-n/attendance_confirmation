@@ -42,6 +42,7 @@ def setup():
                 status_code=422, detail=f"Erro ao criar um Super User: {str(e)}"
             )
 
+
 setup()
 
 app = FastAPI(title="API de Confirmação de Presença")

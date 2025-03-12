@@ -6,7 +6,7 @@ from infra.give_gift_persistence import (
     delete_give_gift,
 )
 
-route = APIRouter(prefix="/give_gift", tags=["Guest","Admin"])
+route = APIRouter(prefix="/give_gift", tags=["Guest", "Admin"])
 
 
 @route.get("/")
@@ -40,6 +40,8 @@ def remove_gift_giver_by_gift_and_guest(guest_id: str, gift_id: int):
         raise HTTPException(
             status_code=422, detail=f"Erro ao deletar uma Gift: {str(e)}"
         )
+
+
 @route.delete("/guest")
 def remove_gift_giver_by_guest(guest_id: str):
     try:
@@ -48,6 +50,8 @@ def remove_gift_giver_by_guest(guest_id: str):
         raise HTTPException(
             status_code=422, detail=f"Erro ao deletar uma Gift: {str(e)}"
         )
+
+
 @route.delete("/gift")
 def remove_gift_giver_by_gift(gift_id: int):
     try:

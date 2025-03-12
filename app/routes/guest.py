@@ -13,7 +13,7 @@ from infra.guest_persistence import (
 route = APIRouter(prefix="/guest")
 
 
-@route.get("/{id}", tags=["Admin","Guest"])
+@route.get("/{id}", tags=["Admin", "Guest"])
 def get_guest(id: str):
     try:
         return read_guest(id)
@@ -21,7 +21,7 @@ def get_guest(id: str):
         raise HTTPException(status_code=422, detail=f"Erro ler um Guest: {str(e)}")
 
 
-@route.put("/", tags=["Admin","Guest"])
+@route.put("/", tags=["Admin", "Guest"])
 def att_guest(guest: GuestTable):
     try:
         return update_guest(guest)
@@ -29,6 +29,7 @@ def att_guest(guest: GuestTable):
         raise HTTPException(
             status_code=422, detail=f"Erro ao atualizar um Guest: {str(e)}"
         )
+
 
 @route.post("/", tags=["Admin"])
 def add_guest(guest: GuestTable, token: dict = Depends(decode_token)):
