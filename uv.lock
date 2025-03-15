@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.12"
 
 [[package]]
@@ -32,6 +33,7 @@ dependencies = [
     { name = "bcrypt" },
     { name = "fastapi" },
     { name = "pydantic", extra = ["email"] },
+    { name = "pymysql" },
     { name = "python-dotenv" },
     { name = "python-jose" },
     { name = "sqlmodel" },
@@ -48,6 +50,7 @@ requires-dist = [
     { name = "bcrypt", specifier = ">=4.3.0" },
     { name = "fastapi", specifier = "==0.115.8" },
     { name = "pydantic", extras = ["email"], specifier = ">=2.10.6" },
+    { name = "pymysql", specifier = ">=1.1.1" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "python-jose", specifier = ">=3.4.0" },
     { name = "sqlmodel", specifier = "==0.0.22" },
@@ -136,7 +139,7 @@ name = "click"
 version = "8.1.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "colorama", marker = "platform_system == 'Windows'" },
+    { name = "colorama", marker = "sys_platform == 'win32'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/b9/2e/0090cbf739cee7d23781ad4b89a9894a41538e4fcf4c31dcdd705b78eb8b/click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a", size = 226593 }
 wheels = [
@@ -352,6 +355,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/a4/99/bddde3ddde76c03b65dfd5a66ab436c4e58ffc42927d4ff1198ffbf96f5f/pydantic_core-2.27.2-cp313-cp313-win32.whl", hash = "sha256:1ebaf1d0481914d004a573394f4be3a7616334be70261007e47c2a6fe7e50130", size = 1834387 },
     { url = "https://files.pythonhosted.org/packages/71/47/82b5e846e01b26ac6f1893d3c5f9f3a2eb6ba79be26eef0b759b4fe72946/pydantic_core-2.27.2-cp313-cp313-win_amd64.whl", hash = "sha256:953101387ecf2f5652883208769a79e48db18c6df442568a0b5ccd8c2723abee", size = 1990453 },
     { url = "https://files.pythonhosted.org/packages/51/b2/b2b50d5ecf21acf870190ae5d093602d95f66c9c31f9d5de6062eb329ad1/pydantic_core-2.27.2-cp313-cp313-win_arm64.whl", hash = "sha256:ac4dbfd1691affb8f48c2c13241a2e3b60ff23247cbcf981759c768b6633cf8b", size = 1885186 },
+]
+
+[[package]]
+name = "pymysql"
+version = "1.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b3/8f/ce59b5e5ed4ce8512f879ff1fa5ab699d211ae2495f1adaa5fbba2a1eada/pymysql-1.1.1.tar.gz", hash = "sha256:e127611aaf2b417403c60bf4dc570124aeb4a57f5f37b8e95ae399a42f904cd0", size = 47678 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0c/94/e4181a1f6286f545507528c78016e00065ea913276888db2262507693ce5/PyMySQL-1.1.1-py3-none-any.whl", hash = "sha256:4de15da4c61dc132f4fb9ab763063e693d521a80fd0e87943b9a453dd4c19d6c", size = 44972 },
 ]
 
 [[package]]
