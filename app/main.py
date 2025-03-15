@@ -12,7 +12,7 @@ from routes.give_gift import route as gifter
 from infra.auth_persistence import create_login, read_login_by_id
 import logging
 
-load_dotenv()
+load_dotenv(override=True)
 
 setup_done = False
 
