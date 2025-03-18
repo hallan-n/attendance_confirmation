@@ -1,0 +1,26 @@
+# Ignorar arquivos de banco de dados locais
+*.db
+*.sqlite
+
+# Ignorar caches do Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar diretórios de ambientes virtuais
+venv/
+.env/
+.venv/
+
+# Ignorar arquivos temporários do sistema operacional
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos de controle de versão
+.git/
+.gitignore
